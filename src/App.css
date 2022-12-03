@@ -11,3 +11,20 @@ html, body {
   padding: 3%;
   overflow-y: none;
 }
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #276976;
+  border-radius: 8px;
+  border-right: 4px solid transparent; /* 透明なボーダーをつける */
+  border-left: 4px solid transparent; /* 透明なボーダーをつける */
+  background-clip: padding-box; /* 背景を切り取る */
+}
+
+::-webkit-scrollbar-track { /* 上下に余白を付ける */
+  margin-top: 4px;
+  margin-bottom: 4px;
+}

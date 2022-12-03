@@ -2,8 +2,9 @@ import { Card, CardBody, Spinner, Image, Stack, Heading, Text, Box } from '@chak
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
 import { User } from '../type/User';
-// import SimpleBar from 'simplebar-react';
-// import 'simplebar-react/dist/simplebar.min.css';
+
+const sleep = (sec: number) => new Promise(resolve =>
+  setTimeout(resolve, sec * 1000));
 
 const UserHandler = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -12,6 +13,8 @@ const UserHandler = () => {
   const loadMore = async (page: number) => {
     const URL = `https://gorest.co.in/public/v2/users?page=${page}`;
 
+    // delay to confirm asynchronous communication 
+    await sleep(1.0)
     const response = await fetch(URL);
     const usersList: User[] = await response.json();
 
@@ -27,7 +30,7 @@ const UserHandler = () => {
   return (
     <>
       <Heading as='h2' fontSize={{ base: 'md', md: 'lg' }} py='30'>ユーザ一覧</Heading>
-      <Box style={{ maxHeight: 720 }}>
+      <Box style={{ maxHeight: 620 }}>
         <InfiniteScroll
           loadMore={loadMore} // read next data
           loader={loader}      // component in loading
