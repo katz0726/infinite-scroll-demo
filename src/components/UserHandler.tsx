@@ -1,4 +1,4 @@
-import { Card, CardBody, Spinner, Image, Stack, Heading, Text, Box, Link } from '@chakra-ui/react';
+import { Card, CardBody, Spinner, Image, Stack, Heading, Text, Box } from '@chakra-ui/react';
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
 import { User } from '../type/User';
@@ -10,18 +10,15 @@ const UserHandler = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const loadMore = async (page: number) => {
-    const URL = `https://gorest.co.in/public/v2/users?&page=${page}`;
+    const URL = `https://gorest.co.in/public/v2/users?page=${page}`;
 
     const response = await fetch(URL);
-    const usersList: User[] = await response.json()
-    console.log(`GET ${URL}  count=${usersList.length}`)
-    console.log(page)
-    if (usersList.length < 0) {
-      setHasMore(false);
+    const usersList: User[] = await response.json();
 
+    if (usersList.length < 1) {
+      setHasMore(false);
       return;
     }
-
     setUsers([...users, ...usersList]);
   };
 
@@ -32,11 +29,9 @@ const UserHandler = () => {
       <Heading as='h2' fontSize={{ base: 'md', md: 'lg' }} py='30'>ユーザ一覧</Heading>
       <Box style={{ maxHeight: 720 }}>
         <InfiniteScroll
-          pageStart={1}
           loadMore={loadMore} // read next data
           loader={loader}      // component in loading
           hasMore={hasMore}      // scroll more or not
-          useWindow={false}
         >
           {users.map((user, num) => (
             <Card
@@ -47,7 +42,7 @@ const UserHandler = () => {
             >
               <Image
                 objectFit='cover'
-                maxW={{ base: 'md', sm: 'lg' }}
+                maxW={{ base: 'sm', sm: 'sm' }}
                 src='https://source.unsplash.com/random'
                 alt='thumnail'
               />
