@@ -29,7 +29,7 @@ const UserHandler = () => {
 
   return (
     <>
-      <Heading as='h2' fontSize={{ base: 'md', md: 'lg' }} py='30'>ユーザ一覧</Heading>
+      <Heading as='h2' fontSize={{ base: 'md', md: 'lg' }} py='30'>User List</Heading>
       <Box style={{ maxHeight: 620 }}>
         <InfiniteScroll
           loadMore={loadMore} // read next data
