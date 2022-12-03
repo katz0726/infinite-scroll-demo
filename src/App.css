@@ -8,5 +8,6 @@ html, body {
   text-align: center;
   width: 70%;
   margin: 0 auto;
-  padding: 120px;
+  padding: 3%;
+  overflow-y: none;
 }

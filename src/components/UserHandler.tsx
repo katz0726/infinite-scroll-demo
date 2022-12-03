@@ -1,20 +1,21 @@
-import { Box, Card, CardBody, Spinner, Image, Stack, Heading, Text } from '@chakra-ui/react';
+import { Card, CardBody, Spinner, Image, Stack, Heading, Text, Box, Link } from '@chakra-ui/react';
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
 import { User } from '../type/User';
+// import SimpleBar from 'simplebar-react';
+// import 'simplebar-react/dist/simplebar.min.css';
 
 const UserHandler = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
   const loadMore = async (page: number) => {
-    const URL = `https://gorest.co.in/public/v2/users?page=${page}`;
+    const URL = `https://gorest.co.in/public/v2/users?&page=${page}`;
 
     const response = await fetch(URL);
     const usersList: User[] = await response.json()
-
     console.log(`GET ${URL}  count=${usersList.length}`)
-
+    console.log(page)
     if (usersList.length < 0) {
       setHasMore(false);
 
@@ -28,40 +29,43 @@ const UserHandler = () => {
 
   return (
     <>
-    <Heading as='h2' py='30'>ユーザ一覧</Heading>
-    <Box h="720px" overflow="auto">
-      <InfiniteScroll
-        loadMore={loadMore} // read next data
-        loader={loader}      // component in loading
-        hasMore={hasMore}      // scroll more or not 
-        useWindow={false}
-      >
-        {users.map((user, num) => (
-          <Card
-            direction={{ base: 'column', sm: 'row' }}
-            overflow='hidden'
-            variant='outline'
-            key={num}
-          >
-            <Image
-              objectFit='cover'
-              maxW={{ base: '100%', sm: '200px' }}
-              src='https://source.unsplash.com/random'
-              alt='thumnail'
-            />
-            <Stack>
-              <CardBody>
-                <Heading size='md'>{user.name}</Heading>
+      <Heading as='h2' fontSize={{ base: 'md', md: 'lg' }} py='30'>ユーザ一覧</Heading>
+      <Box style={{ maxHeight: 720 }}>
+        <InfiniteScroll
+          pageStart={1}
+          loadMore={loadMore} // read next data
+          loader={loader}      // component in loading
+          hasMore={hasMore}      // scroll more or not
+          useWindow={false}
+        >
+          {users.map((user, num) => (
+            <Card
+              direction={{ base: 'column', sm: 'row' }}
+              overflow='hidden'
+              variant='outline'
+              key={num}
+            >
+              <Image
+                objectFit='cover'
+                maxW={{ base: 'md', sm: 'lg' }}
+                src='https://source.unsplash.com/random'
+                alt='thumnail'
+              />
+              <Stack w='100%'>
+                <CardBody>
+                  <Heading fontSize={{ base: 'md', md: 'lg' }} textAlign='center'>{user.name}</Heading>
 
-                <Text py='2'>{user.email}</Text>
-                <Text py='2'>{user.gender}</Text>
-                <Text py='2'>{user.status}</Text>
-              </CardBody>
-            </Stack>
-          </Card>
-        ))}
-      </InfiniteScroll>
-    </Box>
+                  <Text fontSize={{ base: 'md', md: 'lg' }} py='2'>
+                    <a href={`mailto:${user.email}`}>{user.email}</a>
+                  </Text>
+                  <Text fontSize={{ base: 'md', md: 'lg' }} py='2'>{user.gender}</Text>
+                  <Text fontSize={{ base: 'md', md: 'lg' }} py='2'>{user.status}</Text>
+                </CardBody>
+              </Stack>
+            </Card>
+          ))}
+        </InfiniteScroll>
+      </Box>
     </>
   )
 }
